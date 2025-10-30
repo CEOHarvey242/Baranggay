@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay Emergency Notification System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏘️ Barangay Emergency Notification System</h1>
+            <p class="subtitle">Send alerts and announcements to residents</p>
+        </header>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="status-label">Status:</span>
+                <span id="serverStatus" class="status-value">Checking...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Registered Devices:</span>
+                <span id="deviceCount" class="status-value">-</span>
+            </div>
+        </div>
+
+        <div class="cards-grid">
+            <!-- Emergency Water Level Alert -->
+            <div class="card emergency-card">
+                <div class="card-header">
+                    <span class="icon">💧</span>
+                    <h2>Water Level Alert</h2>
+                </div>
+                <div class="card-content">
+                    <label for="waterLevel">Water Level:</label>
+                    <select id="waterLevel" class="input">
+                        <option value="low">Low</option>
+                        <option value="normal">Normal</option>
+                        <option value="high">High</option>
+                        <option value="critical">Critical - Emergency</option>
+                    </select>
+                    
+                    <label for="waterMessage">Custom Message (Optional):</label>
+                    <textarea id="waterMessage" class="input" rows="3" placeholder="Enter custom message..."></textarea>
+                    
+                    <button class="btn btn-emergency" onclick="sendWaterAlert()">
+                        🚨 Send Water Level Alert
+                    </button>
+                </div>
+            </div>
+
+            <!-- General Announcement -->
+            <div class="card announcement-card">
+                <div class="card-header">
+                    <span class="icon">📢</span>
+                    <h2>General Announcement</h2>
+                </div>
+                <div class="card-content">
+                    <label for="announcementTitle">Title:</label>
+                    <input type="text" id="announcementTitle" class="input" placeholder="Enter announcement title...">
+                    
+                    <label for="announcementMessage">Message:</label>
+                    <textarea id="announcementMessage" class="input" rows="4" placeholder="Enter announcement message..."></textarea>
+                    
+                    <button class="btn btn-announcement" onclick="sendAnnouncement()">
+                        📢 Send Announcement
+                    </button>
+                </div>
+            </div>
+
+            <!-- Emergency Alert -->
+            <div class="card general-emergency-card">
+                <div class="card-header">
+                    <span class="icon">🚨</span>
+                    <h2>Emergency Alert</h2>
+                </div>
+                <div class="card-content">
+                    <label for="emergencyTitle">Title:</label>
+                    <input type="text" id="emergencyTitle" class="input" placeholder="Emergency Alert Title...">
+                    
+                    <label for="emergencyMessage">Message:</label>
+                    <textarea id="emergencyMessage" class="input" rows="4" placeholder="Enter emergency message..."></textarea>
+                    
+                    <button class="btn btn-emergency-alert" onclick="sendEmergencyAlert()">
+                        🚨 SEND EMERGENCY ALERT
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="notification" class="notification hidden"></div>
+
+        <div class="footer">
+            <p>© 2024 Barangay Notification System - For Official Use Only</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
