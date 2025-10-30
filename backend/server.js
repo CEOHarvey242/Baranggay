@@ -17,9 +17,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 if (admin.apps.length === 0) {
   try {
     // Use service account from environment variable or file
-    const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT 
-      ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
-      : require('./serviceAccountKey.json');
+    let serviceAccountRaw = process.env.FIREBASE_SERVICE_ACCOUNT;
+
+    // Allow base64-encoded variant, e.g., FIREBASE_SERVICE_ACCOUNT_BASE64
+    if (!serviceAccountRaw && process.env.FIREBASE_SERVICE_ACCOUNT_BASE64) {
+      const decoded = Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT_BASE64, 'base64').toString('utf8');
+      serviceAccountRaw = decoded;
+    }
+
+    let serviceAccount;
+    if (serviceAccountRaw) {
+      serviceAccount = JSON.parse(serviceAccountRaw);
+      // Normalize private_key: convert literal "\\n" to real newlines "\n"
+      if (serviceAccount.private_key && typeof serviceAccount.private_key === 'string') {
+        serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+      }
+    } else {
+      serviceAccount = require('./serviceAccountKey.json');
+    }
 
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
